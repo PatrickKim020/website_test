@@ -1,0 +1,460 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><title>나우리해운항공</title><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<style>
+/* Layout: Redline campaign page. Red-field hero with a live route scene, a ticker band, then white sections that build in as you scroll. */
+:root{--canvas:#ffffff;--soft-cloud:#f5f5f5;--ink:#111111;--on-ink:#ffffff;--charcoal:#39393b;--mute:#707072;--border-strong:#707072;--hairline:#cacacb;--hairline-soft:#e5e5e5;--red-field:#d9140f;--fixed-white:#ffffff;--fixed-black:#111111;--focus-ring:#111111;--space-xs:4px;--space-sm:8px;--space-md:12px;--space-lg:18px;--space-xl:24px;--space-button-x:32px;--space-section:48px;--space-section-tablet:32px;--space-section-mobile:24px;--radius-none:0px;--radius-md:24px;--radius-lg:30px;--radius-full:9999px;--shadow-hairline-inset:inset 0 -1px 0 #e5e5e5;--font-sans:"Segoe UI Variable","Segoe UI",system-ui,-apple-system,"SF Pro Text",Roboto,"Noto Sans KR","Malgun Gothic",sans-serif}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--canvas:#111111;--soft-cloud:#1c1c1d;--ink:#ffffff;--on-ink:#111111;--charcoal:#cacacb;--mute:#9e9ea0;--border-strong:#9e9ea0;--hairline:#39393b;--hairline-soft:#2a2a2b;--focus-ring:#ffffff;--shadow-hairline-inset:inset 0 -1px 0 #2a2a2b;color-scheme:dark}}
+:root[data-theme="dark"]{--canvas:#111111;--soft-cloud:#1c1c1d;--ink:#ffffff;--on-ink:#111111;--charcoal:#cacacb;--mute:#9e9ea0;--border-strong:#9e9ea0;--hairline:#39393b;--hairline-soft:#2a2a2b;--focus-ring:#ffffff;--shadow-hairline-inset:inset 0 -1px 0 #2a2a2b;color-scheme:dark}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--canvas);color:var(--ink);font-family:var(--font-sans);font-size:14px;line-height:20px;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:11;background:var(--canvas)}
+a{color:var(--ink)}
+h1,h2,h3,p,dl,dd{margin:0}
+.wrap{max-width:1440px;margin:0 auto;box-sizing:border-box;padding-left:max(24px,env(safe-area-inset-left,0px));padding-right:max(24px,env(safe-area-inset-right,0px))}
+.sec{padding-block:var(--space-section)}
+.sec--flush{padding-top:0}
+.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--space-xl)}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--space-section)}
+.grid2>*,.grid3>*{min-width:0}
+.title-1{font:600 32px/40px var(--font-sans);text-wrap:balance}
+.title-1::after{content:"";display:block;width:56px;height:3px;margin-top:var(--space-md);background:var(--ink);transform-origin:left}
+.stack{display:flex;flex-direction:column;gap:var(--space-xl)}
+.body{color:var(--charcoal)}
+.cap{font:600 12px/16px var(--font-sans);color:var(--mute)}
+
+/* Scroll progress and back-to-top */
+.progress{position:fixed;left:0;right:0;top:env(safe-area-inset-top,0px);height:3px;z-index:12;background:var(--ink);transform:scaleX(0);transform-origin:left;pointer-events:none}
+.totop{position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:max(16px,env(safe-area-inset-bottom,0px));z-index:12;display:inline-flex;align-items:center;justify-content:center;width:48px;height:48px;border-radius:var(--radius-full);background:var(--ink);color:var(--on-ink);opacity:0;transform:translateY(16px) scale(.8);pointer-events:none;transition:opacity .3s ease,transform .3s cubic-bezier(.2,.7,.2,1)}
+.totop.show{opacity:1;transform:none;pointer-events:auto}
+.totop:hover{transform:translateY(-4px)}
+.totop:focus-visible{outline:2px solid var(--focus-ring);outline-offset:2px}
+
+/* Redline components */
+.rl-btn{display:inline-flex;align-items:center;justify-content:center;gap:var(--space-sm);height:48px;padding:0 var(--space-button-x);border:0;border-radius:var(--radius-lg);background:var(--ink);color:var(--on-ink);font:600 14px/20px var(--font-sans);cursor:pointer;text-decoration:none;transition:transform .2s cubic-bezier(.2,.7,.2,1),opacity .15s ease}
+.rl-btn:focus-visible,.nl-input:focus-visible,.rl-nav__link:focus-visible{outline:2px solid var(--focus-ring);outline-offset:2px}
+.rl-btn--secondary{background:var(--soft-cloud);color:var(--ink)}
+.rl-btn--on-image{height:auto;padding:var(--space-md) var(--space-xl);background:var(--fixed-white);color:var(--fixed-black)}
+.rl-btn--sm{height:40px;padding:0 var(--space-xl);font-size:12px;line-height:16px}
+.rl-btn:hover{transform:translateY(-3px)}
+.rl-btn:active{transform:scale(.5);opacity:.5}
+.rl-btn .arrow{animation:nudge 1.6s ease-in-out infinite}
+.rl-badge{display:inline-flex;align-items:center;padding:var(--space-xs) var(--space-md);border:1px solid var(--hairline);border-radius:var(--radius-lg);background:var(--canvas);color:var(--ink);font:600 12px/16px var(--font-sans)}
+.rl-util{background:var(--soft-cloud);color:var(--ink);font:600 12px/16px var(--font-sans)}
+.rl-util .wrap{display:flex;align-items:center;justify-content:flex-end;gap:var(--space-lg);height:36px}
+.rl-nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;background:var(--canvas);box-shadow:var(--shadow-hairline-inset)}
+.rl-nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:var(--space-xl);height:56px}
+.rl-nav__brand{display:inline-flex;align-items:center;background:var(--fixed-white);padding:2px 8px;text-decoration:none}
+.rl-nav__brand img{display:block;height:36px;width:auto;max-width:100%;transition:transform .3s cubic-bezier(.2,.7,.2,1)}
+.rl-nav__brand:hover img{transform:scale(1.05)}
+.rl-nav__links{display:flex;gap:var(--space-xl);height:100%}
+.rl-nav__link{position:relative;display:inline-flex;align-items:center;height:100%;color:var(--ink);font:600 14px/20px var(--font-sans);text-decoration:none;box-sizing:border-box}
+.rl-nav__link::after{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;background:var(--ink);transform:scaleX(0);transform-origin:left;transition:transform .35s cubic-bezier(.2,.7,.2,1)}
+.rl-nav__link:hover::after,.rl-nav__link:focus-visible::after{transform:scaleX(1)}
+.rl-tile{position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:space-between;gap:var(--space-xl);min-height:560px;padding:var(--space-xl);box-sizing:border-box;background:var(--red-field);color:var(--fixed-white)}
+.rl-tile>*:not(.scene){position:relative;z-index:1}
+.rl-tile__note{font:600 clamp(40px,7vw,68px)/1.15 var(--font-sans)}
+.rl-tile__head{font:600 clamp(40px,7vw,68px)/.95 var(--font-sans);text-transform:uppercase;max-width:760px}
+.rl-tile__sub{font:600 20px/26px var(--font-sans)}
+.hero-end{display:flex;flex-direction:column;align-items:flex-start;gap:var(--space-xl)}
+.w{display:inline-block}
+.type{display:inline-block}
+.type::after{content:"";display:inline-block;width:2px;height:1em;margin-left:4px;vertical-align:-3px;background:currentColor;opacity:0}
+
+/* Hero route scene: a plane and a ship travelling between two points */
+.scene{position:absolute;z-index:0;right:var(--space-xl);top:116px;width:min(52%,620px);height:auto;color:var(--fixed-white);pointer-events:none;transform:translate(calc(var(--mx,0) * 14px),calc(var(--my,0) * 10px));transition:transform .25s ease-out}
+.scene text{font:600 12px var(--font-sans);fill:currentColor}
+.route{fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-dasharray:4 9;opacity:.7;animation:dash 1.1s linear infinite}
+.node{fill:currentColor}
+.ping{fill:none;stroke:currentColor;stroke-width:1.5;transform-box:fill-box;transform-origin:center;animation:ping 2.6s ease-out infinite}
+.ping.b{animation-delay:1.3s}
+.vehicle{fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.wave{fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;opacity:.55;animation:drift 9s linear infinite}
+.wave.w2{opacity:.35;animation-duration:14s;animation-direction:reverse}
+.wave.w3{opacity:.2;animation-duration:20s}
+
+/* Ticker */
+.ticker{margin-top:var(--space-xl);border-block:1px solid var(--hairline);overflow:hidden;padding-block:var(--space-lg)}
+.ticker .track{display:flex;width:max-content;animation:marquee 30s linear infinite}
+.ticker:hover .track{animation-play-state:paused}
+.ticker .grp{display:flex;align-items:center;gap:var(--space-xl);padding-right:var(--space-xl)}
+.ticker .grp span{font:600 24px/32px var(--font-sans);white-space:nowrap}
+.ticker .dot{display:inline-block;width:8px;height:8px;border-radius:var(--radius-full);background:var(--hairline);flex-shrink:0}
+
+/* Sections */
+.card{display:flex;flex-direction:column;align-items:flex-start;gap:var(--space-md);padding:var(--space-xl);box-sizing:border-box;background:var(--soft-cloud)}
+.card--line{background:var(--canvas);border:1px solid var(--hairline)}
+.card h3{font:600 20px/26px var(--font-sans)}
+.card .idx{font:600 24px/32px var(--font-sans);color:var(--mute);font-variant-numeric:tabular-nums}
+.card svg{overflow:visible}
+.info{border-top:1px solid var(--hairline)}
+.info>div{display:grid;grid-template-columns:120px minmax(0,1fr);gap:var(--space-xl);padding:var(--space-lg) 0;border-bottom:1px solid var(--hairline)}
+.info dd>.rl-badge{margin-left:var(--space-sm)}
+.contact-list{display:flex;flex-direction:column;gap:var(--space-lg)}
+.contact-item{display:flex;gap:var(--space-md);align-items:flex-start}
+.contact-item svg{flex-shrink:0}
+.contact-item .val{font-weight:600;overflow-wrap:anywhere}
+.panel{background:var(--soft-cloud);padding:var(--space-xl);box-sizing:border-box}
+.form{display:flex;flex-direction:column;gap:var(--space-lg)}
+.form2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--space-md)}
+.field{display:flex;flex-direction:column;gap:var(--space-sm);min-width:0}
+.field label{font:600 12px/16px var(--font-sans)}
+.nl-input{box-sizing:border-box;width:100%;height:48px;padding:0 var(--space-lg);border:1px solid var(--border-strong);border-radius:var(--radius-md);background:var(--canvas);color:var(--ink);font:400 14px/20px var(--font-sans);transition:box-shadow .25s ease,border-color .25s ease}
+textarea.nl-input{height:auto;min-height:144px;padding:var(--space-md) var(--space-lg);resize:vertical}
+.nl-input:focus{border-color:var(--ink);box-shadow:0 0 0 5px var(--hairline)}
+.nl-input::placeholder{color:var(--mute);opacity:1}
+.agree{display:flex;gap:var(--space-sm);align-items:flex-start}
+.agree input{width:20px;height:20px;margin:2px 0 0;accent-color:var(--ink);flex-shrink:0}
+.agree label{font:600 14px/20px var(--font-sans)}
+.fine{font:400 12px/16px var(--font-sans);color:var(--mute)}
+.done{display:flex;flex-direction:column;align-items:flex-start;gap:var(--space-lg);animation:pop .6s cubic-bezier(.2,.9,.3,1.2) backwards}
+.done h3{font:600 24px/32px var(--font-sans)}
+.check circle,.check path{fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1;stroke-dashoffset:0;animation:draw 1s ease .2s backwards}
+.check path{animation-delay:.7s}
+footer{border-top:1px solid var(--hairline)}
+footer .wrap{padding-block:var(--space-xl);display:flex;flex-direction:column;gap:var(--space-sm)}
+.foot-name{font:600 20px/26px var(--font-sans);text-transform:uppercase}
+.foot-fine{font:400 10px/14px var(--font-sans);color:var(--mute);padding-top:var(--space-md)}
+.anchor{scroll-margin-top:calc(56px + env(safe-area-inset-top,0px))}
+
+/* Idle icon motion */
+.ic-ship{animation:bob 3.2s ease-in-out infinite}
+.ic-air{animation:float 3.6s ease-in-out infinite}
+.ic-multi .a{animation:slideR 2.6s ease-in-out infinite}
+.ic-multi .b{animation:slideL 2.6s ease-in-out infinite}
+.ic-phone{transform-origin:50% 50%;animation:ring 4.5s ease-in-out 1.5s infinite}
+.ic-pin{animation:hop 2.8s ease-in-out infinite}
+.ic-mail{animation:float 3.4s ease-in-out infinite}
+
+/* Keyframes */
+@keyframes wipe{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0 0 0 0)}}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+@keyframes rise{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+@keyframes wordUp{from{opacity:0;transform:translateY(70%) rotate(4deg)}to{opacity:1;transform:none}}
+@keyframes navIn{from{transform:translateY(-100%);opacity:0}to{transform:none;opacity:1}}
+@keyframes typing{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0 0 0 0)}}
+@keyframes caret{0%,20%,40%,60%,80%{opacity:1}10%,30%,50%,70%,100%{opacity:0}}
+@keyframes ringPulse{0%{box-shadow:0 0 0 0 rgba(255,255,255,.65)}100%{box-shadow:0 0 0 18px rgba(255,255,255,0)}}
+@keyframes nudge{50%{transform:translateX(4px)}}
+@keyframes dash{to{stroke-dashoffset:-26}}
+@keyframes ping{0%{transform:scale(1);opacity:.8}100%{transform:scale(4.5);opacity:0}}
+@keyframes drift{to{transform:translateX(-600px)}}
+@keyframes marquee{to{transform:translateX(-50%)}}
+@keyframes bob{50%{transform:translateY(-3px) rotate(-2deg)}}
+@keyframes float{50%{transform:translate(2px,-3px)}}
+@keyframes slideR{50%{transform:translateX(3px)}}
+@keyframes slideL{50%{transform:translateX(-3px)}}
+@keyframes hop{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-4px)}}
+@keyframes ring{0%,16%,100%{transform:rotate(0)}2%,6%,10%,14%{transform:rotate(-14deg)}4%,8%,12%{transform:rotate(14deg)}}
+@keyframes pop{0%{opacity:0;transform:scale(.85)}100%{opacity:1;transform:scale(1)}}
+@keyframes draw{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}
+
+/* Entrance on load */
+.rl-util{animation:fade .6s ease backwards}
+.rl-nav{animation:navIn .7s cubic-bezier(.2,.7,.2,1) backwards}
+.rl-tile{animation:wipe 1s cubic-bezier(.7,0,.2,1) .1s backwards}
+.rl-tile>.rl-tile__note{animation:rise .9s cubic-bezier(.2,.7,.2,1) .55s backwards}
+.scene{animation:fade 1.2s ease 1s backwards}
+.w{animation:wordUp .9s cubic-bezier(.2,.7,.2,1) backwards;animation-delay:calc(.6s + var(--i,0) * .13s)}
+.hero-end>.rl-tile__sub{animation:rise .8s cubic-bezier(.2,.7,.2,1) 1.1s backwards}
+.type{animation:typing 1.7s steps(26,end) 1.4s backwards}
+.type::after{animation:caret 4s linear 1.4s forwards}
+.hero-end>.rl-btn{animation:rise .8s cubic-bezier(.2,.7,.2,1) 1.4s backwards,ringPulse 2.4s ease-out 2.6s infinite}
+.ticker{animation:fade .8s ease 1.2s backwards}
+
+/* Scroll build-in (only when scripting runs and motion is allowed) */
+.js [data-anim]{opacity:0;transform:translateY(34px);transition:opacity .85s cubic-bezier(.2,.7,.2,1),transform .85s cubic-bezier(.2,.7,.2,1),box-shadow .3s ease,border-color .3s ease;transition-delay:calc(var(--i,0) * 90ms)}
+.js [data-anim="left"]{transform:translateX(-56px)}
+.js [data-anim="right"]{transform:translateX(56px)}
+.js [data-anim="zoom"]{transform:scale(.9)}
+.js [data-anim].is-in{opacity:1;transform:none}
+.js .title-1::after{transform:scaleX(0);transition:transform .9s cubic-bezier(.2,.7,.2,1) .35s}
+.js .is-in .title-1::after,.js .title-1.is-in::after{transform:scaleX(1)}
+.js [data-anim] svg :is(path,circle){stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset 1.3s ease .4s}
+.js [data-anim].is-in svg :is(path,circle){stroke-dashoffset:0}
+.js [data-anim] .check :is(path,circle){stroke-dashoffset:0}
+.card{transition:transform .35s cubic-bezier(.2,.7,.2,1),box-shadow .35s ease,border-color .35s ease}
+.card.is-in:hover,html:not(.js) .card:hover{transform:translateY(-8px);box-shadow:0 18px 0 -12px var(--hairline)}
+.card--line.is-in:hover,html:not(.js) .card--line:hover{border-color:var(--ink)}
+.info>div{transition:background-color .3s ease,padding-left .3s ease}
+.info>div:hover{padding-left:var(--space-sm);background:var(--soft-cloud)}
+
+@media (prefers-reduced-motion: reduce){*,*::before,*::after{animation:none !important;transition:none !important;scroll-behavior:auto !important}}
+@media (max-width:1023px){.sec{padding-block:var(--space-section-tablet)}.grid3{grid-template-columns:repeat(2,minmax(0,1fr))}.grid2{grid-template-columns:minmax(0,1fr);gap:var(--space-section-tablet)}.scene{opacity:.4;width:70%;top:auto;bottom:130px}}
+@media (max-width:959px){.rl-nav__links{display:none}}
+@media (max-width:599px){.sec{padding-block:var(--space-section-mobile)}.grid3,.form2{grid-template-columns:minmax(0,1fr)}.info>div{grid-template-columns:96px minmax(0,1fr);gap:var(--space-md)}.rl-tile{min-height:480px}.scene{display:none}.ticker .grp span{font-size:20px;line-height:28px}}
+</style>
+<script>
+if (!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches)) {
+  document.documentElement.classList.add('js');
+}
+</script>
+
+<div class="progress" id="progress" aria-hidden="true"></div>
+
+<div class="rl-util"><div class="wrap"><span>Tel 02-737-9090</span><span>Fax 02-738-1020</span></div></div>
+
+<nav class="rl-nav" aria-label="주요 메뉴"><div class="wrap">
+<a class="rl-nav__brand" href="#top" aria-label="Nauri Logistics Co., Ltd. 홈"><img src="data:image/png;base64,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" alt="Nauri Logistics Co., Ltd."></a>
+<div class="rl-nav__links">
+<a class="rl-nav__link" href="#about">회사 소개</a>
+<a class="rl-nav__link" href="#services">서비스</a>
+<a class="rl-nav__link" href="#strengths">강점</a>
+<a class="rl-nav__link" href="#contact">문의</a>
+</div>
+<a class="rl-btn rl-btn--secondary rl-btn--sm" href="#contact">문의하기</a>
+</div></nav>
+
+<header id="top" class="wrap" style="padding-top:var(--space-xl)">
+<div class="rl-tile" id="hero">
+<p class="rl-tile__note">Nauri Logistics Co., Ltd.</p>
+
+<svg class="scene" viewBox="0 0 560 300" aria-hidden="true">
+<path class="route" d="M40 150 C160 20 400 20 520 140"/>
+<circle class="node" cx="40" cy="150" r="5"/>
+<circle class="node" cx="520" cy="140" r="5"/>
+<circle class="ping" cx="40" cy="150" r="5"/>
+<circle class="ping b" cx="520" cy="140" r="5"/>
+<text x="28" y="176">출발지</text>
+<text x="540" y="166" text-anchor="end">도착지</text>
+<g>
+<animateMotion dur="7s" repeatCount="indefinite" rotate="auto" path="M40 150 C160 20 400 20 520 140"/>
+<g transform="rotate(45) scale(1.5) translate(-12 -12)"><path class="vehicle" d="M21 3L3 10.5l6.5 2.5L12 20l2.5-6L21 3z"/><path class="vehicle" d="M9.5 13L21 3"/></g>
+</g>
+<path class="route" style="animation-direction:reverse" d="M30 232 C120 212 200 252 290 232 S460 212 530 232"/>
+<g>
+<animateMotion dur="15s" repeatCount="indefinite" rotate="auto" path="M30 232 C120 212 200 252 290 232 S460 212 530 232"/>
+<g transform="scale(1.7) translate(-12 -17)"><path class="vehicle" d="M3 15l2.2 4h13.6L21 15H3z"/><path class="vehicle" d="M6 15v-4h12v4"/><path class="vehicle" d="M9 11V8h6v3"/></g>
+</g>
+<g transform="translate(0 262)"><path class="wave" d="M0 0 q15 -8 30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0"/></g>
+<g transform="translate(0 276)"><path class="wave w2" d="M0 0 q15 -8 30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0"/></g>
+<g transform="translate(0 290)"><path class="wave w3" d="M0 0 q15 -8 30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0"/></g>
+</svg>
+
+<div class="hero-end">
+<h1 class="rl-tile__head"><span class="w" style="--i:0">We</span> <span class="w" style="--i:1">carry</span> <span class="w" style="--i:2">customer's</span> <span class="w" style="--i:3">mind</span></h1>
+<p class="rl-tile__sub"><span class="type">해상·항공 국제물류 포워더, 나우리해운항공</span></p>
+<a class="rl-btn rl-btn--on-image" href="#contact">견적 문의<svg class="arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg></a>
+</div>
+</div>
+</header>
+
+<div class="ticker" aria-hidden="true"><div class="track">
+<div class="grp"><span>해상 운송</span><i class="dot"></i><span>항공 운송</span><i class="dot"></i><span>국제 복합운송</span><i class="dot"></i><span>LCL 스케줄</span><i class="dot"></i><span>견적 문의</span><i class="dot"></i></div>
+<div class="grp"><span>해상 운송</span><i class="dot"></i><span>항공 운송</span><i class="dot"></i><span>국제 복합운송</span><i class="dot"></i><span>LCL 스케줄</span><i class="dot"></i><span>견적 문의</span><i class="dot"></i></div>
+</div></div>
+
+<main>
+<section id="about" class="wrap sec anchor">
+<div class="grid2">
+<div class="stack" data-anim="left">
+<h2 class="title-1">회사 소개</h2>
+<p class="body">Nauri Logistics Co., Ltd.(주식회사 나우리해운항공)는 해상과 항공을 아우르는 국제물류 포워더입니다. 출발지에서 도착지까지 국제 복합운송 서비스를 제공합니다.</p>
+</div>
+<dl class="info">
+<div data-anim="right"><dt class="cap">상호</dt><dd>Nauri Logistics Co., Ltd. (주식회사 나우리해운항공)</dd></div>
+<div data-anim="right"><dt class="cap">소재지</dt><dd>10Th Floor, Innoplex B/D, #13 Yangpyeong-Dong 3Ga, Yeongdeungpo-Gu, Seoul, Korea <span class="rl-badge">최신 여부 확인 필요</span></dd></div>
+<div data-anim="right"><dt class="cap">전화</dt><dd>02-737-9090</dd></div>
+<div data-anim="right"><dt class="cap">팩스</dt><dd>02-738-1020</dd></div>
+<div data-anim="right"><dt class="cap">지점</dt><dd>부산 지점 051-000-0000 <span class="rl-badge">임시 번호 · 주소 확인 필요</span></dd></div>
+<div data-anim="right"><dt class="cap">운영 시간</dt><dd>평일 09:00 – 18:00 (주말·공휴일 휴무)</dd></div>
+<div data-anim="right"><dt class="cap">이메일</dt><dd><a href="mailto:marketing1@naurilog.co.kr">marketing1@naurilog.co.kr</a></dd></div>
+</dl>
+</div>
+</section>
+
+<section id="services" class="wrap sec sec--flush anchor">
+<h2 class="title-1" data-anim style="margin-bottom:var(--space-xl)">서비스</h2>
+<div class="grid3">
+<article class="card" data-anim="left">
+<svg class="ic-ship" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path pathLength="1" d="M3 15l2.2 4h13.6L21 15H3z"/><path pathLength="1" d="M6 15v-4h12v4"/><path pathLength="1" d="M9 11V8h6v3"/></svg>
+<h3>해상 운송</h3>
+<p class="body">해상 화물 운송과 LCL 스케줄 안내를 제공합니다.</p>
+<span class="rl-badge">세부 서비스 확인 필요</span>
+</article>
+<article class="card" data-anim>
+<svg class="ic-air" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path pathLength="1" d="M21 3L3 10.5l6.5 2.5L12 20l2.5-6L21 3z"/><path pathLength="1" d="M9.5 13L21 3"/></svg>
+<h3>항공 운송</h3>
+<p class="body">항공 화물 운송을 제공합니다.</p>
+<span class="rl-badge">세부 서비스 확인 필요</span>
+</article>
+<article class="card" data-anim="right">
+<svg class="ic-multi" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><g class="a"><path pathLength="1" d="M4 8h15"/><path pathLength="1" d="M16 5l3 3-3 3"/></g><g class="b"><path pathLength="1" d="M20 16H5"/><path pathLength="1" d="M8 13l-3 3 3 3"/></g></svg>
+<h3>국제 복합운송</h3>
+<p class="body">두 가지 이상의 운송 수단을 연결한 국제 복합운송을 제공합니다.</p>
+<span class="rl-badge">세부 서비스 확인 필요</span>
+</article>
+</div>
+</section>
+
+<section id="strengths" class="wrap sec sec--flush anchor">
+<h2 class="title-1" data-anim style="margin-bottom:var(--space-xl)">강점</h2>
+<div class="grid3">
+<article class="card card--line" data-anim="zoom">
+<span class="idx">01</span>
+<h3>해상·항공 통합 상담</h3>
+<p class="body">해상과 항공 운송을 하나의 창구에서 상담받으실 수 있습니다.</p>
+</article>
+<article class="card card--line" data-anim="zoom">
+<span class="idx">02</span>
+<h3>서울·부산 거점 운영</h3>
+<p class="body">서울 본사와 부산 지점에서 고객의 화물 업무를 지원합니다.</p>
+</article>
+<article class="card card--line" data-anim="zoom">
+<span class="idx">03</span>
+<h3>신속한 견적과 응대</h3>
+<p class="body">문의를 남겨 주시면 담당자가 확인 후 신속하게 견적을 안내해 드립니다.</p>
+</article>
+</div>
+</section>
+
+<section id="contact" class="wrap sec sec--flush anchor">
+<div class="grid2">
+<div class="stack">
+<div data-anim="left" class="stack">
+<h2 class="title-1">문의하기</h2>
+<p class="body">견적과 서비스 문의를 남겨 주시면 담당자가 확인 후 회신드리겠습니다.</p>
+</div>
+<div class="contact-list">
+<div class="contact-item" data-anim="left">
+<svg class="ic-phone" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path pathLength="1" d="M5 4h4l2 5-2.5 1.5a11 11 0 005 5L15 13l5 2v4a1 1 0 01-1 1A16 16 0 014 5a1 1 0 011-1z"/></svg>
+<div><div class="cap">전화</div><span class="val">02-737-9090</span> <span class="cap" style="font-weight:400">팩스 02-738-1020</span></div>
+</div>
+<div class="contact-item" data-anim="left">
+<svg class="ic-pin" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path pathLength="1" d="M12 21s7-6.2 7-11a7 7 0 10-14 0c0 4.8 7 11 7 11z"/><circle pathLength="1" cx="12" cy="10" r="2.5"/></svg>
+<div><div class="cap">주소</div>10Th Floor, Innoplex B/D, #13 Yangpyeong-Dong 3Ga, Yeongdeungpo-Gu, Seoul, Korea</div>
+</div>
+<div class="contact-item" data-anim="left">
+<svg class="ic-mail" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path pathLength="1" d="M3 6h18v12H3z"/><path pathLength="1" d="M3 7l9 6 9-6"/></svg>
+<div><div class="cap">이메일</div><span class="val">marketing1@naurilog.co.kr</span></div>
+</div>
+</div>
+</div>
+
+<div class="panel" data-anim="right">
+<form id="inquiry-form" class="form">
+<div class="form2">
+<div class="field"><label for="f-company">회사명 *</label><input id="f-company" name="company" class="nl-input" type="text" required autocomplete="organization"></div>
+<div class="field"><label for="f-name">담당자명 *</label><input id="f-name" name="name" class="nl-input" type="text" required autocomplete="name"></div>
+</div>
+<div class="form2">
+<div class="field"><label for="f-email">이메일 *</label><input id="f-email" name="email" class="nl-input" type="email" required autocomplete="email"></div>
+<div class="field"><label for="f-phone">연락처</label><input id="f-phone" name="phone" class="nl-input" type="tel" autocomplete="tel"></div>
+</div>
+<div class="field">
+<label for="f-type">문의 유형 *</label>
+<select id="f-type" name="type" class="nl-input" required>
+<option value="" disabled selected>문의 유형 선택</option>
+<option value="ocean">해상 운송</option>
+<option value="air">항공 운송</option>
+<option value="multimodal">국제 복합운송</option>
+<option value="etc">기타</option>
+</select>
+</div>
+<div class="field"><label for="f-message">문의 내용 *</label><textarea id="f-message" name="message" class="nl-input" required placeholder="출발지, 도착지, 화물 품목과 물량을 알려 주세요."></textarea></div>
+<div class="field">
+<div class="agree"><input id="f-agree" name="agree" type="checkbox" required><label for="f-agree">개인정보 수집·이용에 동의합니다 *</label></div>
+<p class="fine">수집 항목: 회사명, 담당자명, 이메일, 연락처, 문의 내용 · 이용 목적: 문의 응대 · 보유 기간: 확인 필요</p>
+</div>
+<button type="submit" class="rl-btn" style="align-self:flex-start">문의 보내기</button>
+</form>
+<div id="inquiry-done" class="done" role="status" hidden>
+<svg class="check" width="48" height="48" viewBox="0 0 24 24" aria-hidden="true"><circle pathLength="1" cx="12" cy="12" r="10"/><path pathLength="1" d="M7.5 12.5l3 3 6-6.5"/></svg>
+<h3>문의 내용을 확인했습니다</h3>
+<p class="body">시안 단계라 실제 전송은 되지 않았습니다. 배포 시 문의 수신 이메일로 연결됩니다.</p>
+<button type="button" id="inquiry-again" class="rl-btn rl-btn--secondary">다시 작성</button>
+</div>
+</div>
+</div>
+</section>
+</main>
+
+<footer><div class="wrap" data-anim>
+<div class="foot-name">Nauri Logistics</div>
+<div class="fine">10Th Floor, Innoplex B/D, #13 Yangpyeong-Dong 3Ga, Yeongdeungpo-Gu, Seoul, Korea</div>
+<div class="fine">Tel 02-737-9090 · Fax 02-738-1020 · marketing1@naurilog.co.kr</div>
+<div class="foot-fine">© 2026 Nauri Logistics Co., Ltd. All rights reserved.</div>
+</div></footer>
+
+<a class="totop" id="totop" href="#top" aria-label="맨 위로"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5"/><path d="M6 11l6-6 6 6"/></svg></a>
+
+<script>
+(function () {
+  var form = document.getElementById('inquiry-form');
+  var done = document.getElementById('inquiry-done');
+  var again = document.getElementById('inquiry-again');
+  if (form && done && again) {
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      form.hidden = true;
+      done.hidden = false;
+    });
+    again.addEventListener('click', function () {
+      form.reset();
+      done.hidden = true;
+      form.hidden = false;
+    });
+  }
+
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduce) {
+    var scene = document.querySelector('.scene');
+    if (scene && scene.pauseAnimations) scene.pauseAnimations();
+    return;
+  }
+
+  /* scroll build-in with a stagger index among siblings */
+  var els = [].slice.call(document.querySelectorAll('[data-anim]'));
+  els.forEach(function (el) {
+    var sibs = [].filter.call(el.parentNode.children, function (c) { return c.hasAttribute('data-anim'); });
+    el.style.setProperty('--i', sibs.indexOf(el));
+  });
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (!en.isIntersecting) return;
+        var el = en.target;
+        el.classList.add('is-in');
+        io.unobserve(el);
+        var i = parseInt(el.style.getPropertyValue('--i') || '0', 10);
+        setTimeout(function () { el.style.transitionDelay = '0s'; }, 1400 + i * 90);
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -6% 0px' });
+    els.forEach(function (el) { io.observe(el); });
+  } else {
+    els.forEach(function (el) { el.classList.add('is-in'); });
+  }
+
+  /* progress bar and back-to-top */
+  var bar = document.getElementById('progress');
+  var top = document.getElementById('totop');
+  var ticking = false;
+  function update() {
+    var h = document.documentElement;
+    var max = h.scrollHeight - h.clientHeight;
+    var p = max > 0 ? Math.min(1, h.scrollTop / max) : 0;
+    if (bar) bar.style.transform = 'scaleX(' + p + ')';
+    if (top) top.classList.toggle('show', h.scrollTop > 600);
+    ticking = false;
+  }
+  window.addEventListener('scroll', function () {
+    if (!ticking) { ticking = true; requestAnimationFrame(update); }
+  }, { passive: true });
+  update();
+
+  /* hero route scene follows the pointer slightly */
+  var hero = document.getElementById('hero');
+  if (hero) {
+    hero.addEventListener('mousemove', function (e) {
+      var r = hero.getBoundingClientRect();
+      hero.style.setProperty('--mx', ((e.clientX - r.left) / r.width - 0.5) * 2);
+      hero.style.setProperty('--my', ((e.clientY - r.top) / r.height - 0.5) * 2);
+    });
+    hero.addEventListener('mouseleave', function () {
+      hero.style.setProperty('--mx', 0);
+      hero.style.setProperty('--my', 0);
+    });
+  }
+})();
+</script>
+
+</body></html>
